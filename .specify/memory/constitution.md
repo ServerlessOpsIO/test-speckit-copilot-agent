@@ -1,50 +1,77 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: uninitialized scaffold -> 1.0.0 (initial project constitution)
+Modified principles:
+- PRINCIPLE_1_NAME -> I. Serverless and Infrastructure as Code
+- PRINCIPLE_2_NAME -> II. Least Privilege and Secure Defaults
+- PRINCIPLE_3_NAME -> III. Testable Contracts
+- PRINCIPLE_4_NAME -> IV. Reliability and Observability
+- PRINCIPLE_5_NAME -> V. Simplicity and Compatibility
+Added sections: Additional Constraints; Development Workflow
+Removed sections: None
+Follow-up TODO: Confirm the original ratification date.
+-->
+# test-speckit-copilot-agent Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Serverless and Infrastructure as Code
+AWS resources and their configuration MUST be defined in version-controlled AWS SAM or
+CloudFormation templates. Changes MUST NOT depend on undocumented, console-only configuration.
+This keeps deployments reproducible and reviewable.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Least Privilege and Secure Defaults
+IAM permissions MUST be limited to the actions and resources each function needs. Secrets MUST
+NOT be committed to source or templates. Public access, sensitive-data handling, and weakened
+security settings MUST be explicit, justified, and reviewed. Inputs crossing a trust boundary
+MUST be validated.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Testable Contracts
+Functions and integrations MUST have defined event and response expectations. Changes to
+handlers MUST include automated tests for relevant behavior, including invalid input and failure
+paths. Changes to infrastructure or service boundaries MUST include validation or integration
+tests appropriate to the changed contract.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Reliability and Observability
+Event-driven processing MUST account for retries and duplicate delivery; handlers MUST be
+idempotent when repeated processing could cause side effects. Functions MUST have deliberate
+timeouts and resource limits. Operationally significant failures MUST be observable through
+structured logs and, where appropriate, metrics or alarms. Logs MUST NOT expose secrets or
+unnecessary personal data.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Simplicity and Compatibility
+The architecture MUST use the simplest design that meets documented requirements. Changes to
+public API, event, or persisted-data contracts MUST preserve compatibility or document a
+controlled migration. New dependencies and AWS resources MUST have a clear operational purpose.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Additional Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+The application uses AWS SAM to define serverless infrastructure and AWS Lambda-based workloads.
+Infrastructure changes MUST follow SAM and CloudFormation resource schemas and keep environment-
+specific values in parameters or configuration rather than duplicating templates. Resource
+permissions, retention, encryption, and network exposure MUST be explicitly reviewed for each
+resource where applicable.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Every change MUST be reviewed for compliance with these principles. Before merging, contributors
+MUST run the repository's available template validation and relevant automated tests, and MUST
+resolve failures caused by the change. Changes affecting AWS integrations MUST be validated with
+tests or checks that exercise the affected boundary. Deployment changes MUST be made through the
+declared infrastructure-as-code workflow; production deployment MUST follow the project's
+authorized release process.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs project decisions and supersedes conflicting informal practices.
+Amendments MUST be proposed through a reviewed change to this file. The change MUST explain its
+reason, assess effects on existing principles and workflows, and update the version and amendment
+date. Reviewers MUST check the proposed change for consistency with the principles and identify
+any required migration or follow-up work.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Versioning follows semantic versioning: MAJOR for incompatible removals or redefinitions of
+governance, MINOR for new or materially expanded principles or sections, and PATCH for
+non-semantic clarifications and corrections. Compliance MUST be considered during implementation
+planning and code review; deviations MUST be explicitly justified and approved in review.
+
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE) | **Last Amended**: 2026-10-16
