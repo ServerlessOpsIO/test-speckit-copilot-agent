@@ -1,0 +1,13 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: test-speckit-copilot-agent
+  description: test
+  annotations:
+    github.com/project-slug: ServerlessOpsIO/test-speckit-copilot-agent
+spec:
+  type: iac
+  lifecycle: production
+  owner: group:00gjdgxs1ur6lsu
+  system: system:backstage
